@@ -4,7 +4,7 @@
   
 
 ```
-STEP1 : [입출력과 사칙연산](https://www.acmicpc.net/step/1)
-STEP2 : [조건문](https://www.acmicpc.net/step/2)
-STEP3 : [반복문](https://www.acmicpc.net/step/3)
+STEP1 : 입출력과 사칙연산
+STEP2 : 조건문
+STEP3 : 반복문
 ```
