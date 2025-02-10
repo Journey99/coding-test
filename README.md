@@ -14,6 +14,7 @@ STEP6 : 심화1
 STEP7 : 2차원 배열
 STEP8 : 일반 수학1
 STEP9 : 약수, 배수와 소수
+STEP10 : 기하: 직사각형과 삼각형
 ```
 
 ## PROGRAMMERS
