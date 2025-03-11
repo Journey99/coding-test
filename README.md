@@ -16,6 +16,7 @@ STEP8 : 일반 수학1
 STEP9 : 약수, 배수와 소수
 STEP10 : 기하: 직사각형과 삼각형
 STEP11 : 시간 복잡도
+STEP12 : 브루트 포스
 ```
 
 ## PROGRAMMERS
