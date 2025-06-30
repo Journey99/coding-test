@@ -27,6 +27,7 @@ STEP19 : 재귀
 STEP20 : 백트래킹
 STEP21 : 동적 계획법1
 STEP22 : 누적합
+STEP23 : 그리디알고리즘1
 ```
 
 ## PROGRAMMERS
