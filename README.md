@@ -29,6 +29,7 @@ STEP21 : 동적 계획법1
 STEP22 : 누적합
 STEP23 : 그리디알고리즘1
 STEP24 : 분할정복
+STEP25 : 이분탐색
 ```
 
 ## PROGRAMMERS
