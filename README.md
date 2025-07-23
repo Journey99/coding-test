@@ -30,6 +30,7 @@ STEP22 : 누적합
 STEP23 : 그리디알고리즘1
 STEP24 : 분할정복
 STEP25 : 이분탐색
+STEP26 : 우선순위 큐
 ```
 
 ## PROGRAMMERS
