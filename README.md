@@ -32,6 +32,7 @@ STEP24 : 분할정복
 STEP25 : 이분탐색
 STEP26 : 우선순위 큐
 STEP27 : 그래프와 순회
+STEP28 : 위상 정렬
 ```
 
 ## PROGRAMMERS
