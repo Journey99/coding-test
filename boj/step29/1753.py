@@ -40,3 +40,4 @@ for i in range(1, v+1):
         print("INF")
     else:
         print(result[i])
+
