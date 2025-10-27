@@ -2,7 +2,7 @@
 
 ## BOJ(Baekjoon Online Judge)
 
-문제는 백준에서 제공하는 [단계별](https://www.acmicpc.net/step)로 진행
+백준에서 제공하는 [단계별](https://www.acmicpc.net/step)로 진행
   
 ```
 STEP1 : 입출력과 사칙연산
@@ -37,6 +37,8 @@ STEP29 : 최단 경로
 STEP30 : 투 포인터
 ```
 
+
+
 ## PROGRAMMERS
 
 [알고리즘 고득점 kit](https://school.programmers.co.kr/learn/challenges?tab=algorithm_practice_kit) 문제
@@ -58,6 +60,7 @@ STEP30 : 투 포인터
 ## LeetCode
 [LeetCode 75](https://leetcode.com/studyplan/leetcode-75) 문제
 
-'''
+```
 1. Array/String
-'''
+2. Twon Pointers
+```
