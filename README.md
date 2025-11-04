@@ -37,6 +37,11 @@ STEP29 : 최단 경로
 STEP30 : 투 포인터
 ```
 
+IT기업 및 대기업 계열사 코테보면서 비슷했던 문제들 [모음집](https://www.acmicpc.net/workbook/view/8708)
+```
+23971, 5073, 2292, 1157, 2816, 11723, 9655
+```
+
 
 
 ## PROGRAMMERS
@@ -64,4 +69,5 @@ STEP30 : 투 포인터
 1. Array/String
 2. Twon Pointers
 3. Sliding Window
+4. Prefix Sum
 ```
