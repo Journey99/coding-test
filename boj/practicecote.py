@@ -30,6 +30,38 @@ def problem_1205():
     else:
         print(-1)
 
+def prblem_1244():
+    switch_num = int(input())
+    onoff = list(map(int, input().split()))
+
+    stu_num = int(input())
+
+    for _ in range(stu_num):
+        sex, num = map(int, input().split())
+
+        if sex == 1:
+            k = num
+            while k <= switch_num:
+                onoff[k-1] ^= 1
+                k += num
+
+        else:
+            onoff[num-1] ^= 1
+
+            l = num - 2
+            r = num 
+
+            while 0 <= l and r < switch_num and onoff[l] == onoff[r]:
+                onoff[l] ^= 1
+                onoff[r] ^= 1
+                l -= 1
+                r += 1
+                
+    for i in range(0, switch_num, 20):
+        print(*onoff[i:i+20])
+    
+
 
 if __name__ == "__main__":
-    problem_1205()  
+    # problem_1205()  
+    prblem_1244()
