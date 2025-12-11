@@ -1,3 +1,5 @@
+from collections import Counter
+from collections import deque
 import sys
 input = sys.stdin.readline
 
@@ -60,8 +62,6 @@ def prblem_1244():
     for i in range(0, switch_num, 20):
         print(*onoff[i:i+20])
 
-from collections import Counter
-
 def problem_9017():
     '''
     1. 6명 다 들어왔는지부터 확인 -> n % teams == 0 이면 다 들어온거
@@ -112,8 +112,60 @@ def problem_9017():
 
         print(answer)
 
+def problem_17266():
+    n = int(input()) # 굴다리의 길이
+    m = int(input()) # 가로등의 개수
+    x = list(map(int, input().split())) # 가로등의 위치
+
+    def can_cover(h):
+        current_coverd = 0
+        for pos in x:
+            if pos - h > current_coverd:
+                return False
+            current_coverd = pos + h
+        return current_coverd >= n
+
+
+    left, right = 1, n
+    answer = right
+
+    while left <= right:
+        mid = (left + right) // 2
+
+        if not can_cover(mid):
+            left = mid + 1
+        else:
+            answer = mid
+            right = mid - 1
+
+    print(answer)            
+
+    '''
+    # 다른방식
+    max_size = 0
+    for i in range(1, m):
+        max_size = max(max_size, x[i] - x[i-1])
+
+    max_size = max((max_size+1)//2, x[0], n-x[-1])
+    print(max_size)
+    '''
+
+def problem_2164():
+    n = int(input())
+    queue = deque(range(1, n + 1))
+
+    while len(queue) > 1:
+        queue.popleft()
+        queue.append(queue.popleft())
+
+    print(queue[0])
+
+
+
 
 if __name__ == "__main__":
     # problem_1205()  
     # prblem_1244()
-    problem_9017()
+    # problem_9017()
+    # problem_17266()
+    problem_2164()
