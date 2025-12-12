@@ -160,6 +160,40 @@ def problem_2164():
 
     print(queue[0])
 
+def problem_13305():
+    n = int(input())
+    length = list(map(int, input().split()))
+    prices = list(map(int, input().split()))
+
+    min_price = prices[0]
+    answer = 0
+
+    for i in range(n-1):
+        if prices[i] < min_price:
+            min_price = prices[i]
+        
+        answer += min_price * length[i]
+
+    print(answer)
+
+def problem_20920():
+    n, m = map(int, input().split())
+
+    words = {}
+
+    for _ in range(n):
+        word = input().strip()
+        if len(word) >= m:
+            words.setdefault(word, 0)
+            words[word] += 1
+        
+    sorted_items = sorted(
+        words.items(),
+        key = lambda x: (-x[1], -len(x[0]), x[0])
+    )
+
+    for item, key in sorted_items:
+        print(item)
 
 
 
@@ -168,4 +202,6 @@ if __name__ == "__main__":
     # prblem_1244()
     # problem_9017()
     # problem_17266()
-    problem_2164()
+    # problem_2164()
+    # problem_13305()
+    problem_20920()
