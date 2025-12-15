@@ -195,6 +195,53 @@ def problem_20920():
     for item, key in sorted_items:
         print(item)
 
+def problem_2512():
+    n = int(input())
+    want = list(map(int, input().split()))
+    budget = int(input())
+
+    if sum(want) <= budget:
+        print(max(want))
+    else:
+        want.sort()
+        left, right = 0, want[-1] 
+        answer = 0
+
+        while left <= right:
+            mid = (left + right) // 2
+
+            total = sum(i if i <= mid else mid for i in want)
+
+            if total > budget:
+                right = mid - 1
+            else:
+                left = mid + 1
+                answer = mid
+
+        print(answer)
+
+def problem_21921():
+    n, x = map(int, input().split())
+    visitors = list(map(int, input().split()))
+
+    if sum(visitors) == 0:
+        print("SAD")
+    else:    
+        total = sum(visitors[:x])
+        max_num = total
+        cnt = 1
+
+        for i in range(n-x):
+            total = total - visitors[i] + visitors[x+i]
+        
+            if max_num < total:
+                max_num = total
+                cnt = 1
+            elif max_num == total:
+                cnt += 1
+
+        print(max_num)
+        print(cnt)
 
 
 if __name__ == "__main__":
@@ -204,4 +251,6 @@ if __name__ == "__main__":
     # problem_17266()
     # problem_2164()
     # problem_13305()
-    problem_20920()
+    # problem_20920()
+    # problem_2512()
+    problem_21921()
