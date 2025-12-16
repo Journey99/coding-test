@@ -243,6 +243,37 @@ def problem_21921():
         print(max_num)
         print(cnt)
 
+def problem_1515():
+    n = input()
+
+    idx = 0
+    num = 1
+
+    while idx < len(n):
+        
+        for c in str(num):
+            if idx < len(n) and c == n[idx]:
+                idx += 1
+        
+        num += 1
+
+    print(num-1)
+
+def problem_19941():
+    n, k = map(int, input().split())
+    ph = list(input().strip())
+
+    cnt = 0
+    for i in range(n):
+        if ph[i] == 'P':
+                for j in range(i-k, i+k+1):
+                    if 0 <= j and j < n and ph[j] == 'H':
+                        cnt += 1
+                        ph[j] = 'X'
+                        break
+
+    print(cnt)
+
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -253,4 +284,6 @@ if __name__ == "__main__":
     # problem_13305()
     # problem_20920()
     # problem_2512()
-    problem_21921()
+    # problem_21921()
+    # problem_1515()
+    problem_19941()
