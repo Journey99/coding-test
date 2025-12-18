@@ -1,3 +1,7 @@
+'''
+https://www.acmicpc.net/workbook/view/8708
+'''
+
 from collections import Counter
 from collections import deque
 import sys
@@ -274,6 +278,74 @@ def problem_19941():
 
     print(cnt)
 
+def problem_17484():
+    n, m = map(int, input().split())
+    fuels = []
+
+    for _ in range(n):
+        fuels.append(list(map(int, input().split())))
+
+    '''
+    dp[d][n][m] : d방향일 때
+
+    d = 0 : 왼쪽으로 , d = 1 : 아래로, d = 2 : 오른쪽으로 
+    '''
+
+    INF = 10**9
+    dp = [[[INF] * m for _ in range(n)] for _ in range(3)]
+
+    for k in range(3):
+        for j in range(m):
+            dp[k][0][j] = fuels[0][j]
+
+
+    for i in range(1, n):
+        for j in range(m):
+            if j+1 < m: # 왼쪽아래방향으로 온 경우
+                dp[0][i][j] = min(dp[1][i-1][j+1], dp[2][i-1][j+1]) + fuels[i][j]
+                
+            # 바로아래방향으로 온 경우
+            dp[1][i][j] = min(dp[0][i-1][j], dp[2][i-1][j]) + fuels[i][j]
+
+            if j - 1 >= 0: # 오른쪽아래방향으로 온 경우
+                dp[2][i][j] = min(dp[0][i-1][j-1], dp[1][i-1][j-1]) + fuels[i][j]
+
+        
+    answer = INF
+    for j in range(m):
+        for d in range(3):
+            answer = min(dp[d][n-1][j], answer)
+
+    print(answer)
+
+def prblem_2607():
+
+    n = int(input().strip())
+    standard = input().strip()
+
+    words = [input().strip() for _ in range(n-1)]
+
+    answer = 0
+    standard_cnt = Counter(standard)
+
+    for word in words:
+        if abs(len(standard) - len(word)) > 1:
+            continue
+
+        word_cnt = Counter(word)
+
+        diff = sum(
+            abs(standard_cnt[c] - word_cnt[c])
+            for c in set(standard_cnt) | set(word_cnt)
+        )
+
+        if diff <= 2:
+            answer += 1
+
+    print(answer)
+
+
+    
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -286,4 +358,6 @@ if __name__ == "__main__":
     # problem_2512()
     # problem_21921()
     # problem_1515()
-    problem_19941()
+    # problem_19941()
+    # problem_17484()
+    prblem_2607()
