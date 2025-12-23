@@ -318,7 +318,7 @@ def problem_17484():
 
     print(answer)
 
-def prblem_2607():
+def problem_2607():
 
     n = int(input().strip())
     standard = input().strip()
@@ -344,8 +344,70 @@ def prblem_2607():
 
     print(answer)
 
+def problem_3758():
+    T = int(input())
 
-    
+    for _ in range(T):
+        teams = {}
+        n, k, t, m = map(int, input().split())
+        
+        for time in range(m):
+            team, probelm, score = map(int, input().split())
+
+            if team not in teams:
+                teams[team] = {
+                    "scores" : [0] * k,
+                    "total" : 0,
+                    "submit_cnt" : 0,
+                    "last_time" : 0
+                }
+            
+            info = teams[team]
+
+            info["submit_cnt"] += 1
+            info["last_time"] = time
+
+            old = info["scores"][probelm-1]
+            if score > old:
+                info["scores"][probelm-1] = score
+                info["total"] += (score - old)
+
+
+        ranked = sorted(teams.items(), key=lambda x: (-x[1]["total"], x[1]["submit_cnt"], x[1]["last_time"]))
+        
+        for rank, (team_id, _) in enumerate(ranked, 1):
+            if team_id == t:
+                print(rank)
+                break
+
+def problem_20310():
+    s = input()
+
+    num0 = s.count("0")
+    num1 = s.count("1")
+
+    remove0 = num0 // 2
+    remove1 = num1 // 2
+
+    result = []
+
+    for ch in s:
+        if ch == "1" and remove1 > 0:
+            remove1 -= 1
+        else:
+            result.append(ch)
+
+    final = []
+    for ch in reversed(result):
+        if ch == "0" and remove0 > 0:
+            remove0 -= 1
+        else:
+            final.append(ch)
+
+    final.reverse()
+
+    print("".join(final))
+
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -360,4 +422,6 @@ if __name__ == "__main__":
     # problem_1515()
     # problem_19941()
     # problem_17484()
-    prblem_2607()
+    # problem_2607()
+    # problem_3758()
+    problem_20310()
