@@ -4,6 +4,7 @@ https://www.acmicpc.net/workbook/view/8708
 
 from collections import Counter
 from collections import deque
+import bisect
 import sys
 input = sys.stdin.readline
 
@@ -408,6 +409,40 @@ def problem_20310():
 
     print("".join(final))
 
+def problem_19637():
+    n, m = map(int, input().split())
+
+    titles = []
+    limits = []
+
+    for _ in range(n):
+        name, num = input().split()
+        titles.append(name)
+        limits.append(int(num))
+
+    for _ in range(m):
+        power = int(input())
+        idx = bisect.bisect_left(limits, power)
+        print(titles[idx])
+
+def problem_22233():
+    n, m = map(int, input().split())
+    memo = set()
+
+    for _ in range(n):
+        memo.add(input().strip())
+
+    for _ in range(m):
+        keywords = input().strip().split(',')
+        
+        for keyword in keywords[:10]:
+            if keyword in memo:
+                memo.remove(keyword)
+
+        print(len(memo))
+
+
+
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -424,4 +459,6 @@ if __name__ == "__main__":
     # problem_17484()
     # problem_2607()
     # problem_3758()
-    problem_20310()
+    # problem_20310()
+    # problem_19637()
+    problem_22233()
