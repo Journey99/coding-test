@@ -5,8 +5,10 @@ https://www.acmicpc.net/workbook/view/8708
 from collections import Counter
 from collections import deque
 import bisect
+import heapq
 import sys
 input = sys.stdin.readline
+
 
 def problem_1205():
     n, new, p = map(int, input().split())
@@ -441,6 +443,59 @@ def problem_22233():
 
         print(len(memo))
 
+def problem_1927():
+
+    n = int(input())
+    pq = []
+
+    for _ in range(n):
+        x = int(input())
+
+        if x == 0:
+            if pq:
+                p = heapq.heappop(pq)
+                print(p)
+            else:
+                print(0)
+        else:
+            heapq.heappush(pq, x)
+    
+def problem_20006():
+    p, m = map(int, input().split())
+
+    rooms = [] # 각 방: {"base": 기준레벨, "players": [(level, name), ...]}
+
+    for _ in range(p):
+        l, n = input().split()
+        l = int(l)
+
+        entered = False
+
+        for room in rooms:
+            if len(room["players"]) < m and room["base"] - 10 <= l <= room["base"] + 10:
+                room["players"].append((l, n))
+                entered = True
+                break
+
+        if not entered:
+            rooms.append({
+                "base": l,
+                "players": [(l, n)]
+            })
+        
+    for room in rooms:
+        if len(room["players"]) == m:
+            print("Started!")
+        else:
+            print("Waiting!")
+
+        room["players"].sort(key=lambda x: x[1])
+
+        for level, name in room["players"]:
+            print(level, name)
+        
+
+
 
 
 
@@ -461,4 +516,6 @@ if __name__ == "__main__":
     # problem_3758()
     # problem_20310()
     # problem_19637()
-    problem_22233()
+    # problem_22233()
+    # problem_1927()
+    problem_20006()
