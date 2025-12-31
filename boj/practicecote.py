@@ -494,9 +494,51 @@ def problem_20006():
         for level, name in room["players"]:
             print(level, name)
         
+def problem_11501():
+    t = int(input())
+
+    for _ in range(t):
+        n = int(input())
+        stocks = list(map(int, input().split()))
+
+        max_price = 0
+        benefit = 0
+
+        for i in range(n-1, -1, -1):
+            stock = stocks[i]
+            if max_price < stock:
+                max_price = stock
+            
+            else: # max_price > stock
+                benefit += max_price - stock
+        
+        print(benefit)
+
+def problem_1406():
+
+    left = list(input().rstrip())
+    right = []
+
+    m = int(input())
+
+    for _ in range(m):
+        command = input().split()
+
+        if command[0] == 'L':
+            if left:
+                right.append(left.pop())
+        elif command[0] == 'D':
+            if right:
+                left.append(right.pop())
+
+        elif command[0] == 'B':
+            if left:
+                left.pop()
+        else:
+            left.append(command[1])
 
 
-
+    print(''.join(left + right[::-1]))
 
 
 if __name__ == "__main__":
@@ -518,4 +560,6 @@ if __name__ == "__main__":
     # problem_19637()
     # problem_22233()
     # problem_1927()
-    problem_20006()
+    # problem_20006()
+    # problem_11501()
+    problem_1406()
