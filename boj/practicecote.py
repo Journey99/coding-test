@@ -540,6 +540,38 @@ def problem_1406():
 
     print(''.join(left + right[::-1]))
 
+def problem_2304():
+    n = int(input())
+    info = []
+
+    for _ in range(n):
+        l, h = map(int, input().split())
+        info.append((l, h))
+
+    info.sort(key=lambda x: x[0])
+    max_idx = max(range(n), key=lambda i: info[i][1])
+
+    area = 0
+
+    # 왼쪽
+    cur_max = 0
+    for i in range(0, max_idx):
+        cur_max = max(cur_max, info[i][1])
+        width = info[i+1][0] - info[i][0]
+        area += cur_max * width
+
+    # 오른쪽
+    cur_max = 0
+    for i in range(n-1, max_idx, -1):
+        cur_max = max(cur_max, info[i][1])
+        width = info[i][0] - info[i-1][0]
+        area += cur_max * width
+
+    # 최대높이 기둥 면적
+    area += info[max_idx][1]
+
+    print(area)
+
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -562,4 +594,5 @@ if __name__ == "__main__":
     # problem_1927()
     # problem_20006()
     # problem_11501()
-    problem_1406()
+    # problem_1406()
+    problem_2304()
