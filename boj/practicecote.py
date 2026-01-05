@@ -572,6 +572,80 @@ def problem_2304():
 
     print(area)
 
+def problem_2075():
+    n = int(input())
+
+    pq = []
+    for _ in range(n):
+        nums = map(int, input().split())
+
+        for num in nums:
+            if len(pq) < n:
+                heapq.heappush(pq, num)
+            else:
+                if num > pq[0]:
+                    heapq.heappop(pq)
+                    heapq.heappush(pq, num)
+
+    print(heapq.heappop(pq))
+
+def problem_1138():
+    n = int(input())
+    info = list(map(int, input().split()))
+    result = []
+
+    for height in range(n, 0, -1):
+        result.insert(info[height-1], height)
+    
+    print(*result)
+        
+def problem_1260():
+    
+    def dfs(graph, v, visited):
+        visited[v] = True
+        print(v, end=' ')
+
+        for nxt in graph[v]:
+            if not visited[nxt]:
+                dfs(graph, nxt, visited)
+
+    def bfs(graph, v, visited):
+        visited[v] = True
+        pq = deque([v])
+
+
+        while pq:
+            now = pq.popleft()
+            print(now, end=' ')
+
+            for nxt in graph[now]:
+                if not visited[nxt]:
+                    visited[nxt] = True
+                    pq.append(nxt)
+
+
+    n, m, v = map(int, input().split())
+    graph = [[] for _ in range(n+1)]
+
+    for _ in range(m):
+        x, y = map(int, input().split())
+        graph[x].append(y)
+        graph[y].append(x)
+
+    for g in graph:
+        g.sort()
+
+
+    visited_dfs = [False] * (n+1)
+    visited_bfs = [False] * (n+1)
+
+    dfs(graph, v, visited_dfs)
+    print()
+    bfs(graph, v, visited_bfs)
+
+
+
+
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -595,4 +669,7 @@ if __name__ == "__main__":
     # problem_20006()
     # problem_11501()
     # problem_1406()
-    problem_2304()
+    # problem_2304()
+    # problem_2075()
+    # problem_1138()
+    problem_1260()
