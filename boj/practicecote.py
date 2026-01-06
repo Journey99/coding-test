@@ -643,9 +643,72 @@ def problem_1260():
     print()
     bfs(graph, v, visited_bfs)
 
+def problem_14940():
+    n, m = map(int, input().split())
+
+    matrix = []
+    dist = [[-1] * m for _ in range(n)]
+
+    start_x, start_y = -1, -1
+
+    for i in range(n):
+        row = list(map(int, input().split()))
+        matrix.append(row)
+
+        for j in range(m):
+            if row[j] == 2:
+                start_x, start_y = i, j
 
 
+    dist[start_x][start_y] = 0
+    queue = deque([(start_x, start_y)])
+    moves = [(1,0), (-1,0), (0,1), (0,-1)]
 
+    while queue:
+        now_x, now_y = queue.popleft()
+
+        for x, y in moves:
+            nx, ny = now_x + x, now_y + y
+
+            if 0 <= nx < n and 0 <= ny < m and matrix[nx][ny] == 1 and dist[nx][ny] == -1:
+                dist[nx][ny] = dist[now_x][now_y] + 1
+                queue.append((nx, ny))
+
+
+    for i in range(n):
+        for j in range(m):
+            if matrix[i][j] == 0:
+                print(0, end=' ')
+            else:
+                print(dist[i][j], end=' ')
+        print()
+
+def problem_20922():
+    '''
+    투포인터 사용해서 해결
+    '''
+
+    n, k = map(int, input().split())
+    s = list(map(int, input().split()))
+
+    answer = 0
+    cnt = {}
+    left = 0
+
+    for right in range(n):
+        value = s[right]
+        cnt[value] = cnt.get(value, 0) + 1
+
+        if cnt[value] > k:
+            while cnt[value] > k:
+                cnt[s[left]] -= 1
+                left += 1
+        
+        answer = max(answer, right-left+1)
+
+    print(answer)
+
+    
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -672,4 +735,6 @@ if __name__ == "__main__":
     # problem_2304()
     # problem_2075()
     # problem_1138()
-    problem_1260()
+    # problem_1260()
+    # problem_14940()
+    problem_20922()

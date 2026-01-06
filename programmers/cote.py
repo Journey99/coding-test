@@ -1,4 +1,7 @@
-def probelm_1(info, n, m):
+from collections import deque
+import heapq
+
+def problem_1(info, n, m):
     '''
     완전범죄
     https://school.programmers.co.kr/learn/courses/30/lessons/389480
@@ -35,5 +38,7 @@ def probelm_1(info, n, m):
     return -1
 
 
+
+
 if __name__ == '__main__':
-    probelm_1()
+    # problem_1()
