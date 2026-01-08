@@ -708,7 +708,74 @@ def problem_20922():
 
     print(answer)
 
-    
+def problem_1446():
+    n, d = map(int, input().split())
+
+    shortcuts = [[] for _ in range(d+1)]
+    for _ in range(n):
+        s, e, c = map(int, input().split())
+        if e > d:
+            continue
+        if c >= (e - s):
+            continue
+
+        shortcuts[s].append((e, c))
+
+
+    # dp[x] = x까지 가는 최소 거리
+    dp = [i for i in range(d+1)]
+
+    for i in range(d+1):
+        if i > 0:
+            dp[i] = min(dp[i], dp[i-1] + 1)
+        
+        for end, cost in shortcuts[i]:
+            dp[end] = min(dp[end], dp[i] + cost) # i = starts
+
+    print(dp[d])
+
+def problem_17615():
+    n = int(input())
+    balls = list(input().strip())
+
+    def cnt_move(color, direction):
+        '''
+        r을 왼쪽으로 몰기
+        r을 오른쪽으로 몰기
+        b를 왼쪽으로 몰기
+        b를 오른쪽으로 몰기
+        중에 최소 이동 횟수를 골라야 함
+
+        이미 붙어 있는 덩어리는 움직임 대상 x
+        '''
+
+        conti = 0
+        if direction == 'left':
+            for ball in balls:
+                if ball == color:
+                    conti += 1
+                else:
+                    break
+            
+        else: # right
+            for ball in reversed(balls):
+                if ball == color:
+                    conti += 1
+                else:
+                    break
+        
+        return balls.count(color) - conti
+
+    result = min(
+        cnt_move('R', 'left'),
+        cnt_move('R', 'right'),
+        cnt_move('B', 'left'),
+        cnt_move('B', 'right')
+    )
+
+    print(result)
+                
+
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -737,4 +804,6 @@ if __name__ == "__main__":
     # problem_1138()
     # problem_1260()
     # problem_14940()
-    problem_20922()
+    # problem_20922()
+    # problem_1446()
+    problem_17615()

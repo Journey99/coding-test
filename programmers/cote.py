@@ -1,5 +1,7 @@
-from collections import deque
+from collections import deque, defaultdict
+from math import ceil
 import heapq
+
 
 def problem_1(info, n, m):
     '''
@@ -37,8 +39,39 @@ def problem_1(info, n, m):
     
     return -1
 
+def problem_2(players, m, k):
+    '''
+    서버 증설 횟수
+    https://school.programmers.co.kr/learn/courses/30/lessons/389479?language=python3
+    '''
+    servers = deque()
+    cnt = 0
+    over = 0
 
+    for p in players:
+        # 기존 서버 나이 증가시키고, 만료되는 서버 개수 집계
+        if servers:
+            for i in range(len(servers)):
+                servers[i] += 1
+                if servers[i] >= k:
+                    over += 1
+            
+            # 만료 서버 제거
+            if over > 0:
+                for _ in range(over):
+                    servers.popleft()
+                
+                over = 0
+        
+        need = p // m
 
+        if need > 0 and need > len(servers):
+            for _ in range(need - len(servers)):
+                servers.append(0)
+                cnt += 1
+
+    return cnt
 
 if __name__ == '__main__':
     # problem_1()
+    # problem_2([0, 2, 3, 3, 1, 2, 0, 0, 0, 0, 4, 2, 0, 6, 0, 4, 2, 13, 3, 5, 10, 0, 1, 5], 3, 5)
