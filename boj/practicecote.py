@@ -774,7 +774,57 @@ def problem_17615():
     )
 
     print(result)
-                
+
+def problem_2531():
+    n, d, k, c = map(int, input().split())
+
+
+    sushi = [int(input()) for _ in range(n)]
+
+    counter = Counter(sushi[:k])
+    answer = len(counter) + (1 if c not in counter else 0)
+
+    for i in range(1, n):
+        # 왼쪽 제거
+        left = sushi[i-1]
+        counter[left] -= 1
+        if counter[left] == 0:
+            del counter[left]
+        
+        # 오른쪽 추가
+        right = sushi[(i+k-1) % n]
+        counter[right] += 1
+
+        cnt = len(counter) + (1 if c not in counter else 0)
+        answer = max(cnt, answer)
+
+    print(answer)
+
+def problem_1522():
+    s = input()
+
+    '''
+    1. 문자열에서 a의 총 개수를 센다
+    2. 길이가 "a개수" 인 구간을 원형으로 슬라이딩하면서 그 구간 안에 b개수를 센다
+    3. 그중 최솟값이 정답
+    '''
+    a_cnt = s.count('a') 
+
+    new_s = s + s
+    b_cnt = new_s[:a_cnt].count('b')
+    answer = b_cnt
+
+    for i in range(1, len(new_s)):
+        if new_s[i-1] == 'b':
+            b_cnt -= 1
+        if new_s[(i+a_cnt-1) % len(new_s)] == 'b':
+            b_cnt += 1
+        
+        answer = min(answer, b_cnt)
+
+    print(answer)
+
+    
 
 
 if __name__ == "__main__":
@@ -806,4 +856,6 @@ if __name__ == "__main__":
     # problem_14940()
     # problem_20922()
     # problem_1446()
-    problem_17615()
+    # problem_17615()
+    # problem_2531()
+    problem_1522()
