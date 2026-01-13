@@ -824,8 +824,76 @@ def problem_1522():
 
     print(answer)
 
-    
+def problem_1697():
+    n, k = map(int, input().split())
 
+    MAX = 100000
+    visited = [-1] * (MAX + 1)
+
+    queue = deque([n])
+    visited[n] = 0
+
+    while queue:
+        x = queue.popleft()
+
+        if x == k:
+            print(visited[x])
+            break
+
+        for nx in (x-1, x+1, x*2):
+            if 0 <= nx <= MAX and visited[nx] == -1:
+                visited[nx] = visited[x] + 1
+                queue.append(nx)
+
+def problem_1283():
+    '''
+    왼쪽 -> 오른쪽 순서로 단축키로 지정되었는지 확인 -> 안되어있으면 지정
+    이미 다 지정되어 잇으면 -> 왼쪽부터 차례대로 알파벳을 보면서 단축키로 지정 
+    어떤것도 지정안되면 그냥 놔두기
+
+    '''
+    n = int(input())
+    used = set()
+
+    for _ in range(n):
+        line = input().rstrip()
+        words = line.split()
+
+        # 단축키 위치
+        shortcut_pos = -1
+
+        # 1. 각 단어 첫 글자
+        word_pos = []
+        pos = 0
+        for word in words:
+            word_pos.app(pos)
+            pos += len(word) + 1. # 단어 + 공백
+
+        for i, word in enumerate(words):
+            first = word[0].lower()
+            if first.isalpha() and first not in used:
+                used.add(first)
+                shortcut_pos = word_pos[i]
+                break
+
+        
+        # 2. 왼쪽부터 모든 글자
+        if shortcut_pos == -1:
+            for i, ch in enumerate(line):
+                if ch.isalpha() and ch.lower not in used:
+                    used.add(ch.lower())
+                    shortcut_pos = i
+                    break
+
+        
+        if shortcut_pos != -1:
+            result = line[:shortcut_pos] + '[' + line[shortcut_pos] + ']' + line[shortcut_pos+1:]
+        else:
+            result = line
+
+        print(result)
+
+        
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -858,4 +926,6 @@ if __name__ == "__main__":
     # problem_1446()
     # problem_17615()
     # problem_2531()
-    problem_1522()
+    # problem_1522()
+    # problem_1697()
+    problem_1283()
