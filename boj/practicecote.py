@@ -893,7 +893,49 @@ def problem_1283():
 
         print(result)
 
+def problem_15989():
+    t = int(input())
+    MAX = 10000
+
+    dp = [0] * (MAX + 1)
+    dp[0] = 1
+
+    for num in (1,2,3):
+        for i in range(num, MAX+1):
+            dp[i] += dp[i-num]
+
+    for _ in range(t):
+        n = int(input())
+        print(dp[n])
+
+def problem_13549():
+    n, k = map(int, input().split())
+    MAX = 100000
+
+    dist = [-1] * (MAX + 1)
+    queue = deque([n])
+    dist[n] = 0
+
+    while queue:
+        x = queue.popleft()
+
+        if x == k:
+            print(dist[k])
+            break
+
+        nx = x * 2
+        if 0 <= nx <= MAX and dist[nx] == -1:
+            dist[nx] = dist[x]
+            queue.appendleft(nx)
+
         
+        for nx in (x-1, x+1):
+            if 0 <= nx <= MAX and dist[nx] == -1:
+                dist[nx] = dist[x] + 1
+                queue.append(nx)
+
+    
+
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -928,4 +970,6 @@ if __name__ == "__main__":
     # problem_2531()
     # problem_1522()
     # problem_1697()
-    problem_1283()
+    # problem_1283()
+    # problem_15989()
+    problem_13549()
