@@ -934,7 +934,77 @@ def problem_13549():
                 dist[nx] = dist[x] + 1
                 queue.append(nx)
 
-    
+def problem_12919():
+    '''
+    t에서 s를 만들 수 있는지로 푼다.
+    1. t의 마지막 문자가 a -> a 제거
+    2. t의 마지막 문자가 b -> 맨앞 b 제거 후 뒤집기
+    '''
+
+    s = input().strip()
+    t = input().strip()
+
+    def dfs(t, s):
+        if t == s:
+            return True
+        if len(t) < len(s):
+            return False
+        
+        if t[-1] == 'A':
+            if dfs(t[:-1], s):
+                return True
+        
+        if t[0] == 'B':
+            new_t = t[1:][::-1]
+            if dfs(new_t, s):
+                return True
+        
+        return False
+
+
+    if dfs(t, s):
+        print(1)
+    else:
+        print(0)
+
+def problem_16928():
+    n, m = map(int, input().split())
+    lader, snake = {}, {}
+
+    for _ in range(n):
+        x, y = map(int, input().split())
+        lader[x] = y
+
+    for _ in range(m):
+        x, y = map(int, input().split())
+        snake[x] = y
+
+    visitied = [False] * 101
+    dice = [1, 2, 3, 4, 5, 6]
+
+    queue = deque()
+    queue.append((1, 0)) # 첫번째 칸, 횟수
+    visitied[1] = True
+
+    while queue:
+        x, cnt = queue.popleft()
+
+        if x == 100:
+            print(cnt)
+            exit(0)
+
+        for d in dice:
+            nx = x + d
+            if 0 < nx <= 100 and not visitied[nx]:
+                if nx in lader:
+                    nx = lader[nx]
+                elif nx in snake:
+                    nx = snake[nx]
+                
+                if not visitied[nx]:
+                    queue.append((nx, cnt+1))
+                    visitied[nx] = True
+
 
 
 if __name__ == "__main__":
@@ -972,4 +1042,5 @@ if __name__ == "__main__":
     # problem_1697()
     # problem_1283()
     # problem_15989()
-    problem_13549()
+    # problem_13549()
+    problem_12919()
