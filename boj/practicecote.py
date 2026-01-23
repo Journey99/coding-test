@@ -1005,6 +1005,38 @@ def problem_16928():
                     queue.append((nx, cnt+1))
                     visitied[nx] = True
 
+def problem_20055():
+    n, k = map(int, input().split())
+    belt = deque(map(int, input().split()))
+    robots = deque([False] * n)
+
+    step = 0
+
+    while True:
+        step += 1
+
+        belt.rotate(1)
+        robots.rotate(1)
+        robots[-1] = False
+
+        for i in range(n-2, -1, -1):
+            if robots[i] and not robots[i+1] and belt[i+1] > 0:
+                robots[i] = False
+                robots[i+1] = True
+                belt[i+1] -= 1
+
+        robots[-1] = False
+
+        # 로봇 올리기
+        if belt[0] > 0:
+            robots[0] = True
+            belt[0] -= 1
+
+        if belt.count(0) >= k:
+            print(step)
+            break
+
+
 
 
 if __name__ == "__main__":
