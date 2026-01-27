@@ -4,6 +4,7 @@ https://www.acmicpc.net/workbook/view/8708
 
 from collections import Counter
 from collections import deque
+from collections import defaultdict
 import bisect
 import heapq
 import sys
@@ -1036,6 +1037,35 @@ def problem_20055():
             print(step)
             break
 
+def problem_20437():
+    t = int(input())
+    for _ in range(t):
+        s = input()
+        k = int(input())
+
+        pos = defaultdict(list)
+
+        for i, ch in enumerate(s):
+            pos[ch].append(i)
+
+        min_len = float('inf')
+        max_len = 0
+
+        for ch in pos:
+            if len(pos[ch]) < k:
+                continue
+
+            for i in range(len(pos[ch]) - k + 1):
+                length = pos[ch][i+k-1] - pos[ch][i] + 1
+                min_len = min(min_len, length)
+                max_len = max(max_len, length)
+
+        if min_len == float('inf'):
+            print(-1)
+        else:
+            print(min_len, max_len)
+
+
 
 
 
@@ -1075,4 +1105,5 @@ if __name__ == "__main__":
     # problem_1283()
     # problem_15989()
     # problem_13549()
-    problem_12919()
+    # problem_12919()
+    problem_20437()
