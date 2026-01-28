@@ -1065,7 +1065,71 @@ def problem_20437():
         else:
             print(min_len, max_len)
 
+def problem_2493():
+    n = int(input())
+    tops = list(map(int, input().split()))
 
+    stack = []
+
+    for i, t in enumerate(tops):
+        
+        # 나보다 낮은 탑들은 의미 없으므로 제거
+        while stack and stack[-1][0] < t:
+            stack.pop()
+        
+        if stack:
+            print(stack[-1][1] + 1, end=' ')
+        else:
+            print(0, end=' ')
+        
+        stack.append((t, i))
+
+def problem_14719():
+    h, w = map(int, input().split())
+    blocks = list(map(int, input().split()))
+
+    l, r = 0, w-1
+    left_max, right_max = 0, 0
+    total = 0
+
+    while l < r:
+        if blocks[l] < blocks[r]:
+            if blocks[l] >= left_max:
+                left_max = blocks[l]
+            else:
+                total += left_max - blocks[l]
+            l += 1
+        else:
+            if blocks[r] >= right_max:
+                right_max = blocks[r]
+            else:
+                total += right_max - blocks[r]
+            r -= 1
+
+    print(total)
+
+    '''
+    # 스택 사용한 코드
+    stack = []
+    total = 0
+
+    for i in range(w):
+        while stack and blocks[stack[-1]] < blocks[i]:
+            bottom = stack.pop()
+
+            if not stack:
+                break
+
+            left = stack[-1]
+            height = min(blocks[left], blocks[i]) - blocks[bottom]
+            width = i - left - 1
+
+            total += height * width
+
+        stack.append(i)
+    
+    print(total)
+    '''
 
 
 
@@ -1106,4 +1170,6 @@ if __name__ == "__main__":
     # problem_15989()
     # problem_13549()
     # problem_12919()
-    problem_20437()
+    # problem_20437()
+    # problem_2493()
+    problem_14719()
