@@ -1131,6 +1131,36 @@ def problem_14719():
     print(total)
     '''
 
+def problem_5972():
+    n, m = map(int, input().split())
+    graph = [[] for _ in range(n+1)]
+
+    for _ in range(m):
+        a, b, w = map(int, input().split())
+        graph[a].append((b, w))
+        graph[b].append((a, w))
+
+    start = 1
+    distance = [float('inf')] * (n+1)
+    distance[start] = 0
+
+    heap = []
+    heapq.heappush(heap, (0, start))
+
+    while heap:
+        dist, now = heapq.heappop(heap)
+
+        if distance[now] < dist:
+            continue
+
+        for nxt, w in graph[now]:
+            cost = dist + w
+            if cost < distance[nxt]:
+                distance[nxt] = cost
+                heapq.heappush(heap, (cost, nxt))
+
+    print(distance[n])
+
 
 
 if __name__ == "__main__":
@@ -1172,4 +1202,5 @@ if __name__ == "__main__":
     # problem_12919()
     # problem_20437()
     # problem_2493()
-    problem_14719()
+    # problem_14719()
+    problem_5972()
