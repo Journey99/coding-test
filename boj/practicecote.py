@@ -1161,6 +1161,30 @@ def problem_5972():
 
     print(distance[n])
 
+def problem_2467():
+    n = int(input())
+    liquid = list(map(int, input().split()))
+
+    l, r = 0, len(liquid) - 1
+    result_l, result_r = 0, 0
+
+    min_value = float('inf')
+
+    while l < r:
+        s = liquid[l] + liquid[r]
+
+        if abs(s) < min_value:
+            min_value = abs(s)
+            result_l, result_r = liquid[l], liquid[r]
+        
+        if s < 0:
+            l += 1
+        else:
+            r -= 1
+
+    print(result_l, result_r)
+
+
 
 
 if __name__ == "__main__":
@@ -1203,4 +1227,6 @@ if __name__ == "__main__":
     # problem_20437()
     # problem_2493()
     # problem_14719()
-    problem_5972()
+    # problem_5972()
+    # problem_2467()
+   
