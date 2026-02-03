@@ -1184,6 +1184,159 @@ def problem_2467():
 
     print(result_l, result_r)
 
+def problem_7682():
+    '''
+    말 개수 규칙 : x의 개수 = o의 개수 + 1 또는 x의 개수 = o의 개수 
+    승리 상태 체크 : 가로, 세로, 대각선 -> 승부가 안날 수도 있음
+    승리자와 말 개수 일치 여부
+        - x가 이기면 : x = o + 1
+        - o가 이기면 : o = x + 1
+
+    1. 개수 틀리면 -> 무조건 invalid
+    2. x, o 빙고 둘 다면 -> invalid
+    3. x 빙고면 -> x == o + 1 이어야 valid
+    4. o 빙고면 -> o == x + 1 이어야 valid
+    5. 빙고 없으면 -> 개수 맞으면 valid
+    '''
+
+    def isbingo(xo, check):
+        lines = [
+            (0,1,2), (3,4,5), (6,7,8),   # 가로
+            (0,3,6), (1,4,7), (2,5,8),   # 세로
+            (0,4,8), (2,4,6)             # 대각선
+        ]
+
+        for a, b, c in lines:
+            if xo[a] == xo[b] == xo[c] == check:
+                return True
+        return False
+
+
+    while True:
+        xo = input()
+        if xo == 'end':
+            break
+
+        x_cnt = xo.count('X')
+        o_cnt = xo.count('O')
+        # 말 개수 규칙
+        if x_cnt == o_cnt + 1 or x_cnt == o_cnt:
+            x_bingo = isbingo(xo, 'X')
+            o_bingo = isbingo(xo, 'O')
+
+            # 1. x, o 둘다 빙고 일때
+            if x_bingo and o_bingo:
+                print("invalid")
+            # 2. x가 빙고 일때
+            elif x_bingo:
+                if x_cnt == o_cnt + 1:
+                    print("valid")
+                else:
+                    print("invalid")
+            # 3. o가 빙고 일때
+            elif o_bingo:
+                if x_cnt == o_cnt:
+                    print("valid")
+                else:
+                    print("invalid")
+            # 4. 빙고 없을 때
+            else:
+                if x_cnt + o_cnt == 9:
+                    print("valid")
+                else:
+                    print("invalid")
+        else:
+            print("invalid")
+
+def problem_2668():
+    '''
+    dfs를 이용해서 푸는 문제
+    출발한 숫자 집합 == 도착한 숫자 집합
+    -> 자기 자신으로 되돌아오는 사이클 구조로 사이클에 속한 노드들이 정답
+    '''
+
+    n = int(input())
+    arr = [0] + [int(input()) for _ in range(n)]
+    visited = [False] * (n+1)
+    answer = []
+
+    def dfs(start, current, path):
+        visited[current] = True
+        nxt = arr[current]
+        path.append(current)
+
+        if not visited[nxt]:
+            dfs(start, nxt, path)
+        else:
+            if nxt in path:
+                idx = path.index(nxt)
+                for x in path[idx:]:
+                    answer.append(x)
+        path.pop()
+
+        return
+
+    for i in range(1, n+1):
+        if not visited[i]:
+            dfs(i, i, [])
+
+    answer.sort()
+    print(len(answer))
+    for a in answer:
+        print(a)
+    
+def problem_22251():
+    '''
+    현재 숫자 x를 기준으로 세그먼트 led를 최대 p개까지 반전해서 1~n 이하의 다른 숫자 몇개 만들 수 있는지
+
+    0~9 -> 7세그먼트 on/off 상태
+    cost[a][b] = a -> b로 바꾸는 데 필요한 led 반전 수
+
+    1. 세그먼트 비트 정의
+    2. cost[10][10] 전처리
+    3. x를 k자리 문자열로 변환
+    4. 1부터 n까지 k자리 문자열로 변환해서 자리별 cost 합산
+    '''
+    
+    n, k, p, x = map(int, input().split()) # n : n층 / k : 자리수 / p : 변환 최대 수
+    answer = 0
+
+    segment = [
+        [1,1,1,0,1,1,1],  # 0
+        [0,0,1,0,0,1,0],  # 1
+        [1,0,1,1,1,0,1],  # 2
+        [1,0,1,1,0,1,1],  # 3
+        [0,1,1,1,0,1,0],  # 4
+        [1,1,0,1,0,1,1],  # 5
+        [1,1,0,1,1,1,1],  # 6
+        [1,0,1,0,0,1,0],  # 7
+        [1,1,1,1,1,1,1],  # 8
+        [1,1,1,1,0,1,1],  # 9    
+    ]
+
+    cost = [[0] * 10 for _ in range(10)]
+
+    for a in range(10):
+        for b in range(10):
+            if a != b:
+                for i in range(7):
+                    if segment[a][i] != segment[b][i]:
+                        cost[a][b] += 1
+
+    x_str = str(x).zfill(k)
+
+    for y in range(1, n+1):
+        total = 0
+        y_str = str(y).zfill(k)
+
+        for i in range(k):
+            total += cost[int(x_str[i])][int(y_str[i])]
+        
+        if 0 < total <= p:
+            answer += 1
+
+    print(answer)
+
 
 
 
@@ -1229,4 +1382,6 @@ if __name__ == "__main__":
     # problem_14719()
     # problem_5972()
     # problem_2467()
-   
+    # problem_7682()
+    # problem_2668()
+    problem_22251()
