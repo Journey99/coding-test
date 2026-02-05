@@ -1337,7 +1337,112 @@ def problem_22251():
 
     print(answer)
 
+def problem_7490():
+    
+    def dfs(num, expr):
+        if num == n:
+            if eval(expr.replace(' ', '')) == 0:
+                result.append(expr)
+            return
+        
+        dfs(num + 1, expr + ' ' + str(num + 1))
+        dfs(num + 1, expr + '+' + str(num + 1))
+        dfs(num + 1, expr + '-' + str(num + 1))
 
+    t = int(input())
+    for _ in range(t):
+        n = int(input())
+        result = []
+
+        dfs(1, '1')
+
+        result.sort()
+        for r in result:
+            print(r)
+        print()
+
+def problem_16234():
+    
+    def bfs(i, j):
+        queue = deque([(i, j)])
+        union = [(i, j)]
+        visited[i][j] = True
+        population_sum = graph[i][j]
+        
+        while queue:
+            x, y = queue.popleft()
+
+            for i in range(4):
+                nx = x + dx[i]
+                ny = y + dy[i]
+                if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny]:
+                    if L <= abs(graph[nx][ny] - graph[x][y]) <= R:
+                        visited[nx][ny] = True
+                        queue.append((nx, ny))
+                        union.append((nx, ny))
+                        population_sum += graph[nx][ny]
+        
+        return population_sum, union
+
+
+    N, L, R = map(int, input().split())
+    graph = []
+    for _ in range(N):
+        graph.append(list(map(int, input().split())))
+
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+    day = 0
+    while True:
+        visited = [[False] * N for _ in range(N)]
+        flag = False # 인구 이동이 발생했는지
+
+        for i in range(N):
+            for j in range(N):
+                if not visited[i][j]:
+                    population_sum, union = bfs(i, j, N, L, R)
+                    if len(union) >= 2:
+                        new = population_sum // len(union)
+                        for x, y in union:
+                            graph[x][y] = new
+                        flag = True
+        
+        if flag == False:
+            break
+        day += 1
+
+    print(day)
+
+def problem_2138():
+    n = int(input())
+    start = input().strip()
+    end = input().strip()
+
+    def toggle(arr, idx):
+        for i in (idx-1, idx, idx+1):
+            if 0 <= i < n:
+                arr[i] = '1' if arr[i] == '0' else '0'
+
+    def solve(first_on):
+        arr = list(start)
+        cnt = 0
+
+        if first_on: # 첫번째 스위치 누름
+            toggle(arr, 0)
+            cnt += 1
+        
+        for i in range(1, n):
+            if arr[i-1] != end[i-1]:
+                toggle(arr, i)
+                cnt += 1
+
+        if ''.join(arr) == end:
+            return cnt
+        else:
+            return float('inf')
+
+    ans = min(solve(True), solve(False))
+    print(ans if ans != float('inf') else -1)
 
 
 if __name__ == "__main__":
@@ -1384,4 +1489,7 @@ if __name__ == "__main__":
     # problem_2467()
     # problem_7682()
     # problem_2668()
-    problem_22251()
+    # problem_22251()
+    # problem_7490()
+    # problem_16234()
+    problem_2138()
