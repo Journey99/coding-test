@@ -1444,6 +1444,30 @@ def problem_2138():
     ans = min(solve(True), solve(False))
     print(ans if ans != float('inf') else -1)
 
+def problem_1863():
+    n = int(input())
+    stack = []
+    answer = 0
+
+    for _ in range(n):
+        x, h = map(int, input().split())
+
+        while stack and stack[-1] > h:
+            if stack[-1] != 0:
+                answer += 1
+            stack.pop()
+        
+        if not stack or stack[-1] < h:
+            stack.append(h)
+        
+    while stack:
+        if stack[-1] != 0:
+            answer += 1
+        stack.pop()
+
+    print(answer)
+
+
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -1492,4 +1516,5 @@ if __name__ == "__main__":
     # problem_22251()
     # problem_7490()
     # problem_16234()
-    problem_2138()
+    # problem_2138()
+    problem_1863()
