@@ -1467,6 +1467,96 @@ def problem_1863():
 
     print(answer)
 
+def problem_4485():
+
+    def dijkstra(graph, n):
+        distance = [[float('inf')] * n for _ in range(n)]
+        distance[0][0] = graph[0][0]
+        queue = [(graph[0][0], 0, 0)]
+        while queue:
+            dist, nowx, nowy = heapq.heappop(queue)
+            
+            if distance[nowx][nowy] < dist:
+                continue
+
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                nx = nowx + dx
+                ny = nowy + dy
+                if 0 <= nx < n and 0 <= ny < n:
+                    cost = dist + graph[nx][ny]
+                    if cost < distance[nx][ny]:
+                        distance[nx][ny] = cost
+                        heapq.heappush(queue, (cost, nx, ny))
+        
+        return distance[n-1][n-1]
+
+
+    cnt = 0
+    while True:
+        n = int(input())
+        if n == 0:
+            break
+        
+        cnt += 1
+        graph = [list(map(int, input().split())) for _ in range(n)]
+
+        dist = dijkstra(0, 0, graph, n)
+        print(f"Problem {cnt}: {dist}")
+        
+def problem_1253():
+    '''
+    음수도 가능하기 때문에 자기자신을 제외하고 모든 수를 확인해봐야 함
+    '''
+    n = int(input())
+    ls = list(map(int, input().split()))
+    ls.sort()
+
+    answer = 0
+    for i in range(n):
+        target = ls[i]
+        l, r = 0, n-1
+
+        while l < r:
+            if l == i:
+                l += 1
+                continue
+            if r == i:
+                r -= 1
+                continue
+
+            s = ls[l] + ls[r]
+
+            if s == target:
+                answer += 1
+                break
+            elif s < target:
+                l += 1
+            else:
+                r -= 1
+
+    print(answer)
+
+def problem_1806():
+    n, s = map(int, input().split())
+    ls = list(map(int, input().split()))
+    
+    current_sum = ls[0]
+    l, r = 0, 0
+    min_len = float('inf')
+
+    while l < n and r < n:
+        if current_sum < s:
+            r += 1
+            if r < n:
+                current_sum += ls[r]
+        else:
+            min_len = min(min_len, r - l + 1)
+            current_sum -= ls[l]
+            l += 1
+
+    print(0 if min_len == float('inf') else min_len)
+
+
 
 
 if __name__ == "__main__":
@@ -1517,4 +1607,7 @@ if __name__ == "__main__":
     # problem_7490()
     # problem_16234()
     # problem_2138()
-    problem_1863()
+    # problem_1863()
+    # problem_4485()
+    # problem_1253()
+    problem_1806()
