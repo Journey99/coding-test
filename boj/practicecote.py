@@ -1556,7 +1556,70 @@ def problem_1806():
 
     print(0 if min_len == float('inf') else min_len)
 
+def problem_1987():
+    '''
+    알파벳 : 26개 -> ord(alpha)
+    '''
 
+    def dfs(x, y, cnt):
+        global max_len
+        max_len = max(max_len, cnt)
+
+        for dx, dy in direction:
+            nx = dx + x
+            ny = dy + y
+
+            if 0 <= nx < r and 0 <= ny < c:
+                idx = ord(graph[nx][ny]) - 65
+                if not visitied[idx]:
+                    visitied[idx] = True
+                    dfs(nx, ny, cnt + 1)
+                    visitied[idx] = False
+
+    r, c = map(int, input().split())
+    graph = [list(input().strip()) for _ in range(r)]
+
+    visitied = [False] * 26
+    direction = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    max_len = 0
+
+                    
+    start_idx = ord(graph[0][0]) - 65
+    visitied[start_idx] = True
+    dfs(0, 0, 1)
+
+    print(max_len)
+
+def problem_2110():
+    n, c = map(int, input().split())
+    cords = sorted([int(input()) for _ in range(n)])
+
+    def can_install(distance):
+        cnt = 1
+        location = cords[0] # 공유기 처음 놓는 위치
+
+        for i in range(1, n):
+            if cords[i] - location >= distance:
+                cnt += 1
+                location = cords[i] # 놓는 위치 갱신
+        
+        return cnt >= c
+
+    # 이분 탐색 범위
+    start = 1
+    end = cords[-1] - cords[0]
+    result = 0
+
+    while start <= end:
+        mid = (start + end) // 2
+
+        if can_install(mid):
+            result = mid
+            start = mid + 1
+        else:
+            end = mid - 1
+
+    print(result)
 
 
 if __name__ == "__main__":
@@ -1610,4 +1673,6 @@ if __name__ == "__main__":
     # problem_1863()
     # problem_4485()
     # problem_1253()
-    problem_1806()
+    # problem_1806()
+    # problem_1987()
+    problem_2110()
