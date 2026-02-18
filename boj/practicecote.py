@@ -1621,6 +1621,25 @@ def problem_2110():
 
     print(result)
 
+def problem_9935():
+    s = input()
+    bomb = input()
+
+    stack = []
+    bomb_len = len(bomb)
+
+    for ch in s:
+        stack.append(ch)
+
+        if ch == bomb[-1] and len(stack) >= bomb_len:
+            if ''.join(stack[-bomb_len:]) == bomb:
+                for _ in range(bomb_len):
+                    stack.pop()
+
+    result = ''.join(stack)
+    print(result if result else "FRULA")
+
+
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -1675,4 +1694,5 @@ if __name__ == "__main__":
     # problem_1253()
     # problem_1806()
     # problem_1987()
-    problem_2110()
+    # problem_2110()
+    problem_9935()
