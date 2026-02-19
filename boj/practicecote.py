@@ -1639,6 +1639,70 @@ def problem_9935():
     result = ''.join(stack)
     print(result if result else "FRULA")
 
+def problem_13144():
+    n = int(input())
+    ls = list(map(int, input().split()))
+
+    visited = [False] * 100001
+    l = 0
+    answer = 0
+
+    for r in range(n):
+        while visited[ls[r]]:
+            visited[ls[l]] = False
+            l += 1
+        
+        visited[ls[r]] = True
+        answer += (r - l + 1)
+
+    print(answer)
+
+def problem_1976():
+    n = int(input())
+    m = int(input())
+
+    # graph = [[] for _ in range(n+1)]
+
+    # for i in range(1, n+1):
+    #     connect = list(map(int, input().split()))
+    #     for idx, c in enumerate(connect):
+    #         if c == 1:
+    #             graph[i].append(idx + 1)
+
+    # plan = list(map(int, input().split()))
+
+    parent = [i for i in range(n + 1)]
+
+    def find(x):
+        if parent[x] != x:
+            parent[x] = find(parent[x])
+        return parent[x]
+
+    def union(a, b):
+        a = find(a)
+        b = find(b)
+        if a < b:
+            parent[b] = a
+        else:
+            parent[a] = b
+
+    # 연결 정보 입력받으며 바로 union
+    for i in range(1, n + 1):
+        connect = list(map(int, input().split()))
+        for j, c in enumerate(connect):
+            if c == 1:
+                union(i, j + 1) # i번 도시와 j+1번 도시 연결
+
+    plan = list(map(int, input().split()))
+
+    root = find(plan[0])
+    is_possible = True
+    for i in range(1, m):
+        if find(plan[i]) != root:
+            is_possible = False
+            break
+
+    print("YES" if is_possible else "NO")
 
 
 if __name__ == "__main__":
@@ -1695,4 +1759,6 @@ if __name__ == "__main__":
     # problem_1806()
     # problem_1987()
     # problem_2110()
-    problem_9935()
+    # problem_9935()
+    # problem_13144()
+    problem_1976()
