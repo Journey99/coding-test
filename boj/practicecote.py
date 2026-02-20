@@ -1704,6 +1704,86 @@ def problem_1976():
 
     print("YES" if is_possible else "NO")
 
+def problem_1027():
+
+    def calc_slope(x1, y1, x2, y2):
+        return (y2-y1) / (x2-x1)
+
+    n = int(input())
+    buildings = list(map(int, input().split()))
+
+    answer = 0
+    for i in range(n):
+        cnt = 0
+
+        max_slope = -float('inf')
+        for j in range(i+1, n):
+            slope = calc_slope(i, buildings[i], j, buildings[j])
+            if max_slope < slope:
+                max_slope = slope
+                cnt += 1
+        
+        min_slope = float('inf')
+        for j in range(i-1, -1, -1):
+            slope = calc_slope(j, buildings[j], i, buildings[i])
+            if min_slope > slope:
+                min_slope = slope
+                cnt += 1
+        
+        answer = max(answer, cnt)
+
+    print(answer)
+
+def problem_2179():
+    '''
+    비슷한 단어
+    : n개의 영단어들이 있을 때, 가장 비슷한 두 단어 구해내기
+    -> 공통 접두사가 길다는 것은 단어들을 사전적으로 정렬했을 때 서로 가까이 붙어 있다는 뜻!
+    -> 인접한 두 단어끼리만 공통 접두사 길이를 구하면 됨 -> 인접하지 않은 단어들 사이의 공통 접두사는 그 사이에 있는 단어들의 접두사보다 길 수 없기 때문!
+    '''
+
+    n = int(input())
+    ls = []
+
+    for i in range(n):
+        ls.append((input().strip(), i))
+
+    sorted_ls = sorted(ls)
+
+    max_len = 0
+    lcp = [0] * n # 인접한 단어와 가질 수 있는 최대 접두사 길이
+
+    def get_length(w1, w2):
+        cnt = 0
+        for a, b in zip(w1, w2):
+            if a == b: 
+                cnt += 1
+            else: 
+                break
+        return cnt
+
+    for i in range(n-1):
+        w1, idx1 = sorted_ls[i]
+        w2, idx2 = sorted_ls[i+1]
+
+        length = get_length(w1, w2)
+        max_len = max(max_len, length)
+
+        lcp[idx1] = max(lcp[idx1], length)
+        lcp[idx2] = max(lcp[idx2], length)
+        
+    for i in range(n):
+        if lcp[i] == max_len:
+            s_word = ls[i][0]
+            print(s_word)
+
+            for j in range(i+1, n):
+                if lcp[j] == max_len and get_length(s_word, ls[j][0]) == max_len:
+                    print(ls[j][0])
+                    exit()
+
+
+
 
 if __name__ == "__main__":
     # problem_1205()  
@@ -1761,4 +1841,6 @@ if __name__ == "__main__":
     # problem_2110()
     # problem_9935()
     # problem_13144()
-    problem_1976()
+    # problem_1976()
+    # problem_1027()
+    problem_2179()
