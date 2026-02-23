@@ -1782,7 +1782,22 @@ def problem_2179():
                     print(ls[j][0])
                     exit()
 
+def problem_2631():
+    n = int(input())
+    children = [int(input()) for _ in range(n)]
 
+    dp = [1] * n
+
+    for i in range(n):
+        for j in range(i):
+            if children[j] < children[i]:
+                dp[i] = max(dp[i], dp[j] + 1)
+
+    lis_length = max(dp)
+    print(n-lis_length)
+
+def problem_4179():
+    pass
 
 
 if __name__ == "__main__":
@@ -1843,4 +1858,6 @@ if __name__ == "__main__":
     # problem_13144()
     # problem_1976()
     # problem_1027()
-    problem_2179()
+    # problem_2179()
+    # problem_2631()
+    problem_4179()
