@@ -1797,7 +1797,96 @@ def problem_2631():
     print(n-lis_length)
 
 def problem_4179():
-    pass
+    r, c = map(int, input().split())
+    miro = [list(input().strip()) for _ in range(r)]
+
+    fire_q = deque()
+    jihun_q = deque()
+    fire_time = [[-1] * c for _ in range(r)]
+    jihun_time = [[-1] * c for _ in range(r)]
+
+    for i in range(r):
+        for j in range(c):
+            if miro[i][j] == 'F':
+                fire_q.append((i, j))
+                fire_time[i][j] = 0
+            elif miro[i][j] == 'J':
+                jihun_q.append((i, j))
+                jihun_time[i][j] = 0
+
+    dx = [-1, 1, 0 ,0]
+    dy = [0, 0, -1, 1]
+
+    # 불이 번지는 시간
+    while fire_q:
+        x, y = fire_q.popleft()
+        for i in range(4):
+            nx, ny = x + dx[i], y + dy[i]
+            if 0 <= nx < r and 0 <= ny < c:
+                if miro[nx][ny] != '#' and fire_time[nx][ny] == -1:
+                    fire_time[nx][ny] = fire_time[x][y] + 1
+                    fire_q.append((nx, ny))
+
+    can = False
+
+    while jihun_q:
+        x, y = jihun_q.popleft()
+
+        if x == 0 or x == r-1 or y == 0 or y == c-1:
+            print(jihun_time[x][y] + 1)
+            can = True
+            break
+        
+        for i in range(4):
+            nx, ny = x + dx[i], y + dy[i]
+            if 0 <= nx < r and 0 <= ny < c:
+                if miro[nx][ny] != '#' and jihun_time[nx][ny] == -1:
+                    if fire_time[nx][ny] == -1 or jihun_time[x][y] + 1 < fire_time[nx][ny]:
+                        jihun_time[nx][ny] = jihun_time[x][y] + 1
+                        jihun_q.append((nx, ny))
+
+    if not can:
+        print("IMPOSSIBLE")
+
+def problem_1238():
+    n, m, x = map(int, input().split())
+
+    graph = [[] for _ in range(n+1)] # x -> 집
+    reverse_graph = [[] for _ in range(n+1)] # 집 -> x
+
+    for _ in range(m):
+        s, e, t = map(int, input().split())
+        graph[s].append((e, t))
+        reverse_graph[e].append((s, t))
+
+    def dijkstra(start, graph):
+        dist = [float('inf')] * (n+1)
+        dist[start] = 0
+        q = [(0, start)]
+
+        while q:
+            d, now = heapq.heappop(q)
+
+            if dist[now] < d:
+                continue
+            for nxt, w in graph[now]:
+                cost = d + w
+                if cost < dist[nxt]:
+                    dist[nxt] = cost
+                    heapq.heappush(q, (cost, nxt))
+        return dist
+
+    to_party = dijkstra(x, reverse_graph)
+    from_party = dijkstra(x, graph)
+
+    answer = 0
+    for i in range(1, n+1):
+        answer = max(answer, to_party[i] + from_party[i])
+
+    print(answer)
+
+
+
 
 
 if __name__ == "__main__":
@@ -1860,4 +1949,5 @@ if __name__ == "__main__":
     # problem_1027()
     # problem_2179()
     # problem_2631()
-    problem_4179()
+    # problem_4179()
+    problem_1238()
