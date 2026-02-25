@@ -1885,7 +1885,74 @@ def problem_1238():
 
     print(answer)
 
+def problem_14658():
+    '''
+    하늘에서 별똥별이 빗발친다
+    n : 별똥별 떨어지는 구역의 가로길이
+    m : 세로길이
+    l : 트램펄린의 한 변의 길이 
+    k : 별똥별의 수
 
+    k <= 500 이기때문에 모든 조합을 시도해서 구해도 된다
+    '''
+    n, m, l, k = map(int, input().split()) 
+    star = [list(map(int, input().split())) for _ in range(k)]
+
+    max_star = 0
+    for i in range(k):
+        for j in range(k):
+            cnt = 0
+            start_x = star[i][0] 
+            start_y = star[j][1]
+
+            for x, y in star:
+                if start_x <= x <= start_x + l and start_y <= y <= start_y + l:
+                    cnt += 1
+            
+            max_star = max(max_star, cnt)
+
+    print(k-max_star)
+
+
+def problem_2206():
+    '''
+    [벽 부수고 이동하기]
+    nxm 행렬로 표현되는 맵이 있는데 0 : 이동가능 1 : 이동불가능
+    한개의 벽을 부수고 이동하는 것이 좀 더 경로가 짧아지면 한개까지는 부수고 이동가능
+    '''
+
+    n, m = map(int, input().split())
+    graph = [list(input().strip()) for _ in range(n)]
+    # visited[x][y][0] : 벽 안부수고 방문
+    # visited[x][y][1] : 벽 부수고 방문
+    visited = [[[False] * 2 for _ in range(m)] for _ in range(n)]
+
+    q = deque()
+    q.append((0, 0, 1, 0)) # 좌표, 거리, 벽 부순지 여부
+
+    dx = [-1, 1, 0 ,0]
+    dy = [0, 0, -1, 1]
+
+    while q:
+        x, y, dist, broken = q.popleft()
+
+        if x == n-1 and y == m-1:
+            print(dist)
+            exit(0)
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if 0 <= nx < n and 0 <= ny < m:
+                if graph[nx][ny] == '0' and not visited[nx][ny][broken]:
+                    visited[nx][ny][broken] = True
+                    q.append((nx, ny, dist+1, broken))
+                elif graph[nx][ny] == '1' and broken == 0 and not visited[nx][ny][1]:
+                    visited[nx][ny][1] = True
+                    q.append((nx, ny, dist+1, 1))
+    
+    print(-1)
 
 
 
@@ -1950,4 +2017,6 @@ if __name__ == "__main__":
     # problem_2179()
     # problem_2631()
     # problem_4179()
-    problem_1238()
+    # problem_1238()
+    # problem_14658()
+    problem_2206()
