@@ -1913,7 +1913,6 @@ def problem_14658():
 
     print(k-max_star)
 
-
 def problem_2206():
     '''
     [벽 부수고 이동하기]
@@ -1953,6 +1952,56 @@ def problem_2206():
                     q.append((nx, ny, dist+1, 1))
     
     print(-1)
+
+def problem_22866():
+    '''
+    탑보기
+    - 왼쪽한번 오른쪽한번 훑어서 총 O(N) 에 끝내야하는 문제
+    - 왼쪽에서 오른쪽으로 이동하며 스택에 항상 현재 건물보다 높은 건물들만 남도록 관리 / 나보다 낮은 건물은 pop
+    '''
+    n = int(input())
+    buildings = list(map(int, input().split()))
+
+    cnt = [0] * n
+    nearest = [0] * n
+
+    stack = []
+    for i in range(n):
+        while stack and buildings[stack[-1]] <= buildings[i]:
+            stack.pop()
+        
+        if stack:
+            cnt[i] += len(stack)
+            nearest[i] = stack[-1] + 1
+        
+        stack.append(i)
+
+    stack = []
+    for i in range(n-1, -1, -1):
+        while stack and buildings[stack[-1]] <= buildings[i]:
+            stack.pop()
+        
+        if stack:
+            cnt[i] += len(stack)
+
+            if nearest[i] == 0:
+                nearest[i] = stack[-1] + 1
+            else:
+                left = i + 1 - nearest[i]
+                right = stack[-1] - i
+
+                if right < left:
+                    nearest[i] = stack[-1] + 1
+                # 거리가 같으면 번호가 작은 쪽인 왼쪽을 유지하므로 그대로 둠
+        
+        stack.append(i)
+
+    for i in range(n):
+        if cnt[i] == 0:
+            print(0)
+        else:
+            print(f"{cnt[i]} {nearest[i]}")
+
 
 
 
@@ -2019,4 +2068,5 @@ if __name__ == "__main__":
     # problem_4179()
     # problem_1238()
     # problem_14658()
-    problem_2206()
+    # problem_2206()
+    problem_22866()
