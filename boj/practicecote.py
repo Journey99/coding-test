@@ -2003,6 +2003,30 @@ def problem_22866():
             print(f"{cnt[i]} {nearest[i]}")
 
 
+def problem_24337():
+    n, a, b = map(int, input().split())
+
+    if a + b - 1 > n:
+        print(-1)
+    else:
+        res = deque()
+
+        for i in range(1, a):
+            res.append(i)
+        
+        res.append((max(a,b)))
+
+        for i in range(b-1, 0, -1):
+            res.append(i)
+
+        cnt_one = n - len(res)
+
+        first = res.popleft()
+        for _ in range(cnt_one):
+            res.appendleft(1)
+        res.appendleft(first)
+        
+        print(*res)
 
 
 if __name__ == "__main__":
@@ -2069,4 +2093,5 @@ if __name__ == "__main__":
     # problem_1238()
     # problem_14658()
     # problem_2206()
-    problem_22866()
+    # problem_22866()
+    problem_24337()
