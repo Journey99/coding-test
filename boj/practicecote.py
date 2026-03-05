@@ -8,6 +8,7 @@ from collections import defaultdict
 import bisect
 import heapq
 import sys
+import copy
 input = sys.stdin.readline
 
 
@@ -2002,7 +2003,6 @@ def problem_22866():
         else:
             print(f"{cnt[i]} {nearest[i]}")
 
-
 def problem_24337():
     n, a, b = map(int, input().split())
 
@@ -2027,6 +2027,73 @@ def problem_24337():
         res.appendleft(first)
         
         print(*res)
+
+def problem_15683():
+    
+    # 상, 우, 하, 좌 순서
+    dx = [-1, 0, 1, 0]
+    dy = [0, 1, 0, -1]
+
+
+    # cctv 번호별 가질 수 있는 방향 조합
+    mode = [
+        [],
+        [[0], [1], [2], [3]], # 1번 : 상/우/하/좌
+        [[0, 2], [1, 3]], # 2번 : 상하/좌우
+        [[0, 1], [1,2], [2,3], [3,0]], # 3번 : 직각
+        [[0, 1, 2], [1,2,3], [2,3,0], [3,0,1]], # 4번
+        [[0,1,2,3]] # 5번
+    ]
+
+    def watch(x, y, directions, board):
+        # 지정된 방향으로 벽을 만날 때까지 감시 영역 표시
+        for d in directions:
+            nx, ny = x, y
+            while True:
+                nx += dx[d]
+                ny += dy[d]
+
+                if not (0<= nx < n and 0 <=ny < m) or board[nx][ny] == 6:
+                    break
+                if board[nx][ny] == 0:
+                    board[nx][ny] = '#'
+
+
+    def dfs(depth, current_board):
+        global min_blind_spot
+
+        if depth == len(cctvs):
+            cnt = sum(row.count(0) for row in current_board)
+            min_blind_spot = min(min_blind_spot, cnt)
+            return
+        
+        x, y, cctv_type = cctvs[depth]
+
+        for directions in mode[cctv_type]:
+            # 현재 상태 보존 위해 보드 복사
+            temp_board = copy.deepcopy(current_board)
+
+            watch(x, y, directions, temp_board)
+            dfs(depth+1, temp_board)
+
+
+    n, m = map(int, input().split())
+    graph = []
+    cctvs = []
+    min_blind_spot = n * m
+
+    for i in range(n):
+        row = list(map(int, input().split()))
+        graph.append(row)
+        for j in range(m):
+            if 1 <= row[j] <= 5:
+                cctvs.append((i, j, row[j]))
+
+    dfs(0, graph)
+    print(min_blind_spot)
+
+
+
 
 
 if __name__ == "__main__":
@@ -2094,4 +2161,5 @@ if __name__ == "__main__":
     # problem_14658()
     # problem_2206()
     # problem_22866()
-    problem_24337()
+    # problem_24337()
+    problem_15683()
