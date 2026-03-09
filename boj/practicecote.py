@@ -2092,7 +2092,48 @@ def problem_15683():
     dfs(0, graph)
     print(min_blind_spot)
 
-
+def problem_1943():
+    for _ in range(3):
+        try:
+            line = input().split()
+            if not line: break
+            n = int(line[0])
+        except EOFError:
+            break
+            
+        coins = []
+        total = 0
+        for _ in range(n):
+            val, cnt = map(int, input().split())
+            coins.append((val, cnt))
+            total += val * cnt
+            
+        if total % 2 != 0:
+            print(0)
+            continue
+            
+        target = total // 2
+        # dp[i]는 i원을 만들 수 있는지를 저장
+        dp = [False] * (target + 1)
+        dp[0] = True
+        
+        for val, cnt in coins:
+            # remain[j]: 현재 동전 val을 사용해서 금액 j를 만들 때, 
+            # 남은 동전 val의 개수 (-1이면 해당 금액 불가능)
+            remain = [-1] * (target + 1)
+            
+            for j in range(target + 1):
+                if dp[j]: # 이미 이전 동전들로 만든 금액이면
+                    remain[j] = cnt # 현재 동전을 cnt개 쓸 수 있음
+                elif j >= val and remain[j - val] > 0: # 이전 단계에서 하나 더 쓸 수 있다면
+                    remain[j] = remain[j - val] - 1
+                    dp[j] = True
+            
+            # 조기 종료: 이미 절반을 만들 수 있다면 다음 동전은 볼 필요 없음
+            if dp[target]:
+                break
+                
+        print(1 if dp[target] else 0)   
 
 
 
@@ -2162,4 +2203,5 @@ if __name__ == "__main__":
     # problem_2206()
     # problem_22866()
     # problem_24337()
-    problem_15683()
+    # problem_15683()
+    problem_1943()
