@@ -9,10 +9,8 @@ input = sys.stdin.readline
 
 def problem_12865():
     '''
-    dp[i][w]
-    - i : 현재 고려하고 있는 물건의 번호
-    - w : 배낭의 현재 남은 무게 한도
-    - dp[i][w] : i번째까지 고려했을 때, 무게 합이 k를 넘지 않으면서 얻을 수 있는 가치의 최댓값
+    dp[i]
+    - 가방이 최대 i만큼의 무게를 담을 수 있을 때, 가질 수 있는 최대 가치
     '''
 
     n, k = map(int, input().split())
@@ -84,6 +82,6 @@ def problem_10830():
         print(*row)
 
 if __name__ == '__main__':
-    # problem_12865()
+    problem_12865()
     # problem_11401()
-    problem_10830()
+    # problem_10830()
