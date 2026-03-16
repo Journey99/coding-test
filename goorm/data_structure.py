@@ -136,17 +136,6 @@ def problem_3():
     print(max(0, total_score))
 
 
-    
-
-        
-
-
-
-
-
-
-
-
 
 if __name__=='__main__':
     # problem_1()

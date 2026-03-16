@@ -2,7 +2,7 @@
 https://www.acmicpc.net/workbook/view/4349
 
 '''
-
+import heapq
 import sys
 input = sys.stdin.readline
 
@@ -81,7 +81,42 @@ def problem_10830():
     for row in result:
         print(*row)
 
+def problem_1655():
+    '''
+    정수를 하나씩 외칠때마다 중간값 말하기
+    -> 최대 힙과 최소 힙을 동시에 사용하기
+    : 두 힙의 크기 차이가 1보다 커지지 않아야 한다 -> 최대 힙의 top이 중간값이 됨
+      최대 힙의 루트는 항상 최소 힙의 루트보다 작거나 같아야 함
+    
+
+    '''
+    n = int(input())
+    left_q = []
+    right_q = []
+
+    for _ in range(n):
+        num = int(input())
+
+        # 삽입
+        if len(left_q) == len(right_q):
+            heapq.heappush(left_q, -num)
+        else:
+            heapq.heappush(right_q, num)
+        
+        # 값의 역전 현상 체크
+        if right_q and -left_q[0] > right_q[0]:
+            left_max = -heapq.heappop(left_q)
+            right_min = heapq.heappop(right_q)
+
+            heapq.heappush(left_q, -right_min)
+            heapq.heappush(right_q, left_max)
+        
+        print(-left_q[0])
+
+
+
 if __name__ == '__main__':
-    problem_12865()
+    # problem_12865()
     # problem_11401()
     # problem_10830()
+    problem_1655()
