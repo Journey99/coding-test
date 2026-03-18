@@ -87,8 +87,7 @@ def problem_1655():
     -> 최대 힙과 최소 힙을 동시에 사용하기
     : 두 힙의 크기 차이가 1보다 커지지 않아야 한다 -> 최대 힙의 top이 중간값이 됨
       최대 힙의 루트는 항상 최소 힙의 루트보다 작거나 같아야 함
-    
-
+      
     '''
     n = int(input())
     left_q = []
@@ -113,10 +112,27 @@ def problem_1655():
         
         print(-left_q[0])
 
+def problem_2749():
+    
+    n = int(sys.stdin.readline())
+    mod = 1000000
+    p = 15 * (mod // 10)  # 피사노 주기: 1,500,000
+
+    # n을 주기로 나눈 나머지로 변환
+    n %= p
+
+
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, (a + b) % mod
+        
+    print(a)
+
 
 
 if __name__ == '__main__':
     # problem_12865()
     # problem_11401()
     # problem_10830()
-    problem_1655()
+    # problem_1655()
+    problem_2749()
