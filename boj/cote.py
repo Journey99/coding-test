@@ -128,6 +128,30 @@ def problem_2749():
         
     print(a)
 
+def problem_17404():
+    n = int(input())
+    costs = [list(map(int, input().split())) for _ in range(n)]
+
+    INF = float('inf')
+    ans = INF
+
+    for i in range(3):
+        dp = [[INF] * 3 for _ in range(n)]
+
+        dp[0][i] = costs[0][i]
+
+        for j in range(1, n):
+            dp[j][0] = min(dp[j-1][1], dp[j-1][2]) + costs[j][0]
+            dp[j][1] = min(dp[j-1][0], dp[j-1][2]) + costs[j][1]
+            dp[j][2] = min(dp[j-1][0], dp[j-1][1]) + costs[j][2]
+        
+        for j in range(3):
+            if i != j:
+                ans = min(ans, dp[-1][j])
+
+    print(ans)
+
+
 
 
 if __name__ == '__main__':
@@ -135,4 +159,5 @@ if __name__ == '__main__':
     # problem_11401()
     # problem_10830()
     # problem_1655()
-    problem_2749()
+    # problem_2749()
+    problem_17404()
