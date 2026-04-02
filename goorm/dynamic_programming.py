@@ -45,7 +45,41 @@ def problem_1():
 
     print(dp[N] if dp[N] != INF else -1)
 
+def problem_2():
+    '''
+    [최대 쇼핑몰 구역 찾기]
+    - 건물의 배치는 2차원 행렬로 표현
+    - 각 셀은 건물의 유무
+    - 쇼핑몰은 비어있는 공간의 정사각형 영역 내에만 지을 수 있음
+    - 여러 건물이 있는 2차원 행렬에서 만들 수 있는 가장 큰 정사각형의 넓이는?
+    '''
+
+    n, m = map(int, input().split())
+    grid = [list(map(int, input().split())) for _ in range(n)]
+
+    dp = [[0] * m for _ in range(n)]
+    max_size = 0
+
+    for i in range(n):
+        for j in range(m):
+            if grid[i][j] == 0:
+                if i == 0 or j == 0:
+                    dp[i][j] = 1
+                else:
+                    dp[i][j] = min(
+                        dp[i-1][j],
+                        dp[i][j-1],
+                        dp[i-1][j-1]
+                    ) + 1
+
+                max_size = max(max_size, dp[i][j])
+
+    print(max_size * max_size)
+
+
+
 
 
 if __name__=='__main__':
-    problem_1()
+    # problem_1()
+    problem_2()
