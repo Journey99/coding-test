@@ -76,10 +76,30 @@ def problem_2():
 
     print(max_size * max_size)
 
+def problem_3():
+    '''
+    [동전줍기대회]
+    - 참가자 앞에 동전 n개 일렬로
+    - 참가자들은 동전 n개 중에서 원하는 만큼 주울 수 있음. 번호는 반드시 연속. 아예 줍지 않을 수 있음
+    - 참가자는 자신이 주운 동전들의 가치의 합에 해당하는 만큼 상금을 얻음. 음수라면 얻지 못함
+    - 얻을 수 있는 최대 상금은
+    '''    
 
+    n = int(input())
+    coins = list(map(int, input().split()))
+
+    current = coins[0]
+    answer = coins[0]
+
+    for i in range(1, n):
+        current = max(coins[i], current + coins[i])
+        answer = max(answer, current)
+    
+    print(max(0, answer))
 
 
 
 if __name__=='__main__':
     # problem_1()
-    problem_2()
+    # problem_2()
+    problem_3()
