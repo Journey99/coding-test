@@ -2,6 +2,8 @@
 https://www.acmicpc.net/workbook/view/4349
 
 '''
+from collections import Counter
+from bisect import bisect_left, bisect_right
 import heapq
 import sys
 input = sys.stdin.readline
@@ -151,7 +153,30 @@ def problem_17404():
 
     print(ans)
 
+def problem_10816():
+    n = int(input())
+    cards = list(map(int, input().split()))
+    counter = Counter(cards)
 
+    m = int(input())
+    targets = list(map(int, input().split()))
+
+    for target in targets:
+        print(Counter[target], end=' ')
+
+    '''
+    이분탐색 이용
+    - (x의 마지막 위치) - (x의 첫 위치) = upper_bound(x) - lower_bound(x)
+
+    cards.sort()
+
+    for target in targets:
+        left = bisect_left(cards, target)
+        right = bisect_right(cards, target)
+        print(right - left, end=' ')
+    '''
+
+    
 
 
 if __name__ == '__main__':
@@ -160,4 +185,5 @@ if __name__ == '__main__':
     # problem_10830()
     # problem_1655()
     # problem_2749()
-    problem_17404()
+    # problem_17404()
+    problem_10816()
