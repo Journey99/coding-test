@@ -176,7 +176,36 @@ def problem_10816():
         print(right - left, end=' ')
     '''
 
-    
+def problem_1477():
+    n, m, l = map(int, input().split())
+    info = list(map(int, input().split()))
+    info.append(0)
+    info.append(l)
+    info.sort()
+
+    distances = []
+    for i in range(1, len(info)):
+        distances.append(info[i] - info[i-1])
+
+    left, right = 1, l
+    answer = 0
+
+    while left <= right:
+        mid = (left + right) // 2
+
+        need = 0
+        for d in distances:
+            need += (d-1) // mid
+        
+        if need > m:
+            left = mid + 1
+        else:
+            answer = mid
+            right = mid -  1
+
+    print(answer)
+
+
 
 
 if __name__ == '__main__':
@@ -186,4 +215,6 @@ if __name__ == '__main__':
     # problem_1655()
     # problem_2749()
     # problem_17404()
-    problem_10816()
+    # problem_10816()
+    # problem_1477()
+    
