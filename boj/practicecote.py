@@ -9,6 +9,7 @@ import bisect
 import heapq
 import sys
 import copy
+import math
 input = sys.stdin.readline
 
 
@@ -2165,6 +2166,81 @@ def problem_2169():
     
     print(dp[n-1][m-1])
 
+def problem_23971():
+    '''
+    [ZOAC 4]
+    - 강의실에서 대회를 치르려면 거리두기 수칙을 지켜야 함
+    - 테이블이 행마다 w개씩 h행에 걸쳐 있을 때, 모든 참가자는 세로로 n칸 또는 가로로 m칸 이상 비우고 앉아야 함
+    - 즉, 다른 모든 참가자와 세로줄 번호의 차가 n보다 크거나 가로줄 번호의 차가 m보다 큰 곳에만 앉을 수 있음
+    - 최대 몇 명을 수용할 수 있는지 구하라
+    '''
+    h, w, n, m = map(int, input().split())
+
+    nh = math.ceil(h / (n+1))
+    nw = math.ceil(w / (m+1))
+    print(nh * nw)
+
+
+def problem_2292():
+    '''
+    [벌집]
+    1
+    2 ~ 7
+    8 ~ 19
+    20 ~ 37
+    38 ~ 61
+    1 7 19 37 61
+    6 12 18 24
+    1 + 3n(n-1)
+    '''
+
+    n = int(input())
+    k = 1
+
+    while True:
+        
+        if n <= 1 + 3*k*(k-1):
+            print(k)
+            break
+
+        k += 1
+
+
+def problem_1157():
+    '''
+    [단어 공부]
+    - 대소문자로 된 단어가 주어지면, 이 단어에서 가장 많이 사용된 알파벳이 무엇인지 알아내라
+    '''
+
+    word = list(input().strip().upper())
+    word_dic = Counter(word)
+
+    max_val = max(word_dic.values())
+
+    candidates = [k for k, v in word_dic.items() if v == max_val]
+
+    if len(candidates) > 1:
+        print("?")
+    else:
+        print(candidates[0])
+
+    # most_common = word_dic.most_common()
+    # if len(most_common) > 1 and most_common[0][1] == most_common[1][1]:
+    #     print('?')
+    # else:
+    #     print(most_common[0][0])
+    
+
+    # Counter 안쓰고 - 시간과 메모리 더 효율적
+    word = input().strip().upper()
+    word_ls = list(set(word))
+
+    cnt = [word.count(ch) for ch in word_ls]
+
+    if cnt.count(max(cnt)) > 1:
+        print("?")
+    else:
+        print(word_ls[cnt.index(max(cnt))])
 
 
 
@@ -2237,4 +2313,7 @@ if __name__ == "__main__":
     # problem_15683()
     # problem_1943()
     # problem_9527()
-    problem_2169()
+    # problem_2169()
+    # problem_23971()
+    # problem_2292()
+    problem_1157()
