@@ -2180,7 +2180,6 @@ def problem_23971():
     nw = math.ceil(w / (m+1))
     print(nh * nw)
 
-
 def problem_2292():
     '''
     [벌집]
@@ -2204,7 +2203,6 @@ def problem_2292():
             break
 
         k += 1
-
 
 def problem_1157():
     '''
@@ -2241,6 +2239,35 @@ def problem_1157():
         print("?")
     else:
         print(word_ls[cnt.index(max(cnt))])
+
+def problem_2816():
+    n = int(input())
+    channels = [input() for _ in range(n)]
+
+    answer = ""
+
+    idx1 = channels.index("KBS1")
+    idx2 = channels.index("KBS2")
+
+    # kbs1 위치까지 커서 내리기
+    answer += "1" * idx1
+
+    #kbs1 맨 위로 올리기
+    answer += "4" * idx1
+
+    # Kbs1이 kbs2보다 아래에 있었으면
+    # kbs1을 위로 올리는 과정에서 kbs2가 한칸아래로 밀림
+    if idx1 > idx2:
+        idx2 += 1
+    
+    # kbs2 위치까지 커서 내리기
+    answer += "1" * idx2
+
+    # kbs2 두번째 자리까지 올리기
+    answer += "4" * (idx2-1)
+
+    print(answer)
+    
 
 
 
@@ -2316,4 +2343,5 @@ if __name__ == "__main__":
     # problem_2169()
     # problem_23971()
     # problem_2292()
-    problem_1157()
+    # problem_1157()
+    problem_2816()
